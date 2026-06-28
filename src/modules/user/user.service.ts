@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 import config from "../../config";
 import { RegisterUserPayload } from "./user.interface";
 
-
-
 const registerUserIntoDB = async (payload: RegisterUserPayload) => {
   const { name, email, password, profilePhoto } = payload;
-  const isUserExist = await prisma.user.findUnique({
+
+  console.log("Checking if user exists with email:", email);
+
+  const isUserExist = await prisma.user.findFirst({
     where: { email },
   });
 
@@ -28,19 +28,23 @@ const registerUserIntoDB = async (payload: RegisterUserPayload) => {
       name,
       email,
       password: hashPassword,
+      profile: {
+        create: {
+          profilePhoto,
+        },
+      },
     },
   });
 
   const user = await prisma.user.findUnique({
     where: {
       id: createdUser.id,
-      email: createdUser.email || email,
     },
     omit: {
       password: true,
     },
     include: {
-      profileId: true,
+      profile: true,
     },
   });
   return user;

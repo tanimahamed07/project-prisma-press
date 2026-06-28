@@ -23,6 +23,6 @@ app.get("/", async (req: Request, res: Response) => {
   res.send("hello, World!");
 });
 
-app.use('/api/user', userRouters)
+app.use('/api/users', userRouters)
 
 export default app;
