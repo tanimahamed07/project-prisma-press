@@ -3,9 +3,6 @@ import { userService } from "./user.service";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
-import jwt from "jsonwebtoken";
-import config from "../../config";
-import { jwtUtils } from "../../utils/jwt";
 
 const registerUser = catchAsync(
   async (req: Request, res: Response, nex: NextFunction) => {
