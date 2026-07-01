@@ -25,6 +25,9 @@ const getAllPost = async (query: IPostQuery) => {
 
   const sortBy = query.sortBy ? query.sortBy : "createdAt";
   const sortOrder = query.sortOrder ? query.sortOrder : "desc";
+
+const andConditions : PostWhereInput[] = [];
+
   const posts = await prisma.post.findMany({
     // filtering / exact match without And Operator
 
@@ -121,6 +124,7 @@ const getAllPost = async (query: IPostQuery) => {
     //   content: 'desc'
     // },
 
+    // dynamic searching , filtering
     where: {
       AND: [
         query.searchTerm
@@ -151,7 +155,7 @@ const getAllPost = async (query: IPostQuery) => {
         query.content ? { content: query.content } : {},
       ],
     },
-
+//  dynamic pagination and scarcing 
     take: limit,
     skip: skip,
 
